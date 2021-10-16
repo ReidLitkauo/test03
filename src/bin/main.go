@@ -1,28 +1,33 @@
 package main
-
 import (
 	"os"
 	"log"
-	"github.com/gofiber/fiber/v2"
+	"net/http"
 )
 
-func main() {
+//##############################################################################
+func main () {
+// Entry point for the entire freaking service
 
-	// exe, err := os.Executable()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// ex_path := filepath.Dir(exe)
-	// fmt.Println(ex_path)
+	// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+	// Determine what port to serve on
 
-
-	app := fiber.New()
+	// Google App Engine will decide for us what port this service will be on
+	// Let's grab that port number as a string from the environment
 	port := os.Getenv("PORT")
 
-	// app.Get("/", func(c *fiber.Ctx) error {
-	// 	return c.SendString("Hello, World 👋!")
-	// })
-	app.Static("/", "/out/rsc/_index/.html")
+	// TODO default port for testing only, log.Fatal in production
+	if port == "" {
+		port = "8080"
+	}
 
-	log.Fatal(app.Listen(":" + port))
+	// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+	// Set up HTTP server
+
+	// Register default handler, which will use my custom urlconf
+	http.HandleFunc("/", urlroute)
+
+	// Run the server
+	log.Fatal(http.ListenAndServe(":" + port, nil))
+
 }

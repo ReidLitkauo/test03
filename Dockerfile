@@ -11,7 +11,7 @@ COPY src/bin/go.mod .
 COPY src/bin/go.sum .
 RUN go mod download
 
-COPY src/bin/*.go .
+COPY src/bin/ .
 RUN go build -o ./../../out/bin/go .
 
 ################################################################################
@@ -23,7 +23,5 @@ COPY out/rsc/ /out/rsc/
 # Run built binary
 
 WORKDIR /
-EXPOSE 80
-EXPOSE 443
 EXPOSE 8080
 CMD ["./out/bin/go"]
