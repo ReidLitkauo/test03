@@ -2,7 +2,7 @@ package main
 import (
 	"os"
 	"log"
-	"net/http"
+	"github.com/gofiber/fiber/v2"
 )
 
 //##############################################################################
@@ -24,10 +24,15 @@ func main () {
 	// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	// Set up HTTP server
 
-	// Register default handler, which will use my custom urlconf
-	http.HandleFunc("/", urlroute)
+	// Create new Fiber app with custom configuration
+	fiberapp := fiber.New(fiber.Config{
+		AppName: "feedist.app",
+	})
+
+	// Configure URLs
+	urlconf(fiberapp)
 
 	// Run the server
-	log.Fatal(http.ListenAndServe(":" + port, nil))
+	log.Fatal(fiberapp.Listen(":" + port))
 
 }

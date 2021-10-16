@@ -1,0 +1,1 @@
+window.global_square = (x) -> x * x

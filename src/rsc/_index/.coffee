@@ -1,0 +1,1 @@
+window.local_cube = (x) -> x * x * x
